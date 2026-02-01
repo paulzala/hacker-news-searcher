@@ -1,9 +1,22 @@
 # Hacker News Searcher
 A NextJS-hosted site using AWS services that allows a visitor to search HackerNews articles with semantic search using human language.
 
-## Local development
+## Technology used
+* Database: Postgres, for storing article embeddings
+* Web Application framework: NextJS
+* Hosting services: AWS (Cloudfront, Lambda, etc)
+* ORM library: Prisma
+* Local containerisation: Docker
 
-First, run the development server:
+## Local development
+Fire up the local database in docker:
+```bash
+docker-compose up
+# docker-compose down -v
+```
+
+
+Run the development server:
 
 ```bash
 npm run dev
@@ -19,7 +32,7 @@ Open [http://localhost:3000](http://localhost:3000) with your browser.
 
 ## Project plan
 1. Initisalise Code repos
-* [*] Create nextJs App
+* [x] Create nextJs App
 * [ ] Environment Files
 * [ ] Define Data Models
 
