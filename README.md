@@ -33,8 +33,8 @@ Open [http://localhost:3000](http://localhost:3000) with your browser.
 ## Project plan
 1. Initisalise Code repos
 * [x] Create nextJs App
-* [ ] Environment Files
-* [ ] Define Data Models
+* [x] Environment Files
+* [x] Define Data Models
 
 2. Provision Infrastructure (AWS IaC)
 * [ ] Provision the Amazon RDS PostgreSQL instance with the pgvector extension enabled
