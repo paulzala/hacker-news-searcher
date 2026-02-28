@@ -6,6 +6,22 @@ dotenv.config({
 import { db } from "@/db";
 import { stories } from "@/db/schema";
 
+import OpenAI from 'openai';
+
+const openai = new OpenAI({
+    apiKey: process.env.OPENAI_API_KEY,
+});
+
+// Function that collects an embedding for a string of text.
+async function getEmbedding(text: string) {
+    const response = await openai.embeddings.create({
+        model: "text-embedding-3-small",
+        input: text,
+    });
+
+    return response.data[0].embedding;
+}
+
 async function ingest() {
     // test database connection
     await db.select().from(stories).limit(1);
@@ -27,18 +43,24 @@ async function ingest() {
 
         if (item.type === "story" && item.title) {
             console.log(`Ingesting: ${item.title}`);
+
+            // Turn title into embedding vector
+            const embeddingVector = await getEmbedding(item.title);
+
             await db.insert(stories).values({
                 hnId: item.id,
                 title: item.title,
                 url: item.url || "",
                 content: item.text || "",
+                embedding: embeddingVector,
             })
                 .onConflictDoUpdate({
                     target: stories.hnId,
                     set: {
                         title: item.title,
                         url: item.url || "",
-                        content: item.text || ""
+                        content: item.text || "",
+                        embedding: embeddingVector,
                     },
                 });
         }
